@@ -39,7 +39,7 @@ export const add = (scheme: Scheme): Promise<QueryBuilder> =>
     .insert(scheme, 'id')
     .then(([id]) => findById(id))
 
-// export const addStep = (step: Step, schemeId: Id): Promise<QueryBuilder> => null
+export const addStep = (step: Step): QueryBuilder => db('steps').insert(step)
 
 export const update = (scheme: Scheme, id: Id): Promise<QueryBuilder> =>
   db('schemes')
@@ -57,7 +57,7 @@ export default {
   findById,
   findSteps,
   add,
-  // addStep,
+  addStep,
   update,
   remove,
 }

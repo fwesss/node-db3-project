@@ -66,27 +66,28 @@ router.post('/', (req, res) => {
     })
 })
 
-// router.post('/:id/steps', (req, res) => {
-//   const stepData = req.body
-//   const { id } = req.params
+router.post('/:id/steps', (req, res) => {
+  const { id } = req.params
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  const stepData = { ...req.body, scheme_id: id }
 
-//   Schemes.findById(id)
-//     .then(scheme => {
-//       if (scheme) {
-//         Schemes.addStep(stepData, id).then(step => {
-//           res.status(201).json(step)
-//         })
-//       } else {
-//         res
-//           .status(404)
-//           .json({ message: 'Could not find scheme with given id.' })
-//       }
-//     })
-//     .catch(err => {
-//       console.error(err)
-//       res.status(500).json({ message: 'Failed to create new step' })
-//     })
-// })
+  Schemes.findById(id)
+    .then(scheme => {
+      if (scheme) {
+        Schemes.addStep(stepData).then(step => {
+          res.status(201).json(step)
+        })
+      } else {
+        res
+          .status(404)
+          .json({ message: 'Could not find scheme with given id.' })
+      }
+    })
+    .catch(err => {
+      console.error(err)
+      res.status(500).json({ message: 'Failed to create new step' })
+    })
+})
 
 router.put('/:id', (req, res) => {
   const { id } = req.params
