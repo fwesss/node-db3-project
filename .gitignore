@@ -62,3 +62,7 @@ typings/
 
 # VSCode settings
 .vscode/
+
+yarn.lock
+**/*.db3
+build/
