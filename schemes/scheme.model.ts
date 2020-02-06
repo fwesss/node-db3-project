@@ -27,7 +27,7 @@ export const findSteps = (id: Id): QueryBuilder =>
     .join('schemes', 'schemes.id', 'steps.scheme_id')
     .where({ 'schemes.id': id })
     .select(
-      'schemes.id',
+      'steps.id',
       'schemes.scheme_name',
       'steps.step_number',
       'steps.instructions'
