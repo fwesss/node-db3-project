@@ -1,11 +1,19 @@
 /* eslint-disable no-console */
 import express from 'express'
-import Schemes from './scheme.model'
+import {
+  find,
+  findById,
+  findSteps,
+  add,
+  addStep,
+  update,
+  remove,
+} from './scheme.model'
 
 const router = express.Router()
 
 router.get('/', (_req, res) => {
-  Schemes.find()
+  find()
     .then(schemes => {
       res.json(schemes)
     })
@@ -18,7 +26,7 @@ router.get('/', (_req, res) => {
 router.get('/:id', (req, res) => {
   const { id } = req.params
 
-  Schemes.findById(id)
+  findById(id)
     .then(scheme => {
       if (scheme) {
         res.json(scheme)
@@ -37,7 +45,7 @@ router.get('/:id', (req, res) => {
 router.get('/:id/steps', (req, res) => {
   const { id } = req.params
 
-  Schemes.findSteps(id)
+  findSteps(id)
     .then(steps => {
       if (steps.length) {
         res.json(steps)
@@ -56,7 +64,7 @@ router.get('/:id/steps', (req, res) => {
 router.post('/', (req, res) => {
   const schemeData = req.body
 
-  Schemes.add(schemeData)
+  add(schemeData)
     .then(scheme => {
       res.status(201).json(scheme)
     })
@@ -71,10 +79,10 @@ router.post('/:id/steps', (req, res) => {
   // eslint-disable-next-line @typescript-eslint/camelcase
   const stepData = { ...req.body, scheme_id: id }
 
-  Schemes.findById(id)
+  findById(id)
     .then(scheme => {
       if (scheme) {
-        Schemes.addStep(stepData).then(step => {
+        addStep(stepData).then(step => {
           res.status(201).json(step)
         })
       } else {
@@ -93,10 +101,10 @@ router.put('/:id', (req, res) => {
   const { id } = req.params
   const changes = req.body
 
-  Schemes.findById(id)
+  findById(id)
     .then(scheme => {
       if (scheme) {
-        Schemes.update(changes, id).then(updatedScheme => {
+        update(changes, id).then(updatedScheme => {
           res.json(updatedScheme)
         })
       } else {
@@ -112,7 +120,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params
 
-  Schemes.remove(id)
+  remove(id)
     .then(deleted => {
       if (deleted) {
         res.json({ removed: deleted })
